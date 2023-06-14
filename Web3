@@ -1,0 +1,32 @@
+from web3 import Web3
+
+# Connect to an Ethereum node
+web3 = Web3(Web3.HTTPProvider('https://mainnet.infura.io/v3/your-infura-project-id'))
+
+def get_eth_balance(address):
+    try:
+        # Convert the address to a checksum address
+        checksum_address = Web3.toChecksumAddress(address)
+
+        # Get the balance in Wei
+        balance_wei = web3.eth.get_balance(checksum_address)
+
+        # Convert Wei to Ether
+        balance_eth = web3.fromWei(balance_wei, 'ether')
+
+        return balance_eth
+    except:
+        return None
+
+def main():
+    address = input("Enter an Ethereum address: ")
+
+    balance = get_eth_balance(address)
+
+    if balance is not None:
+        print(f"The balance of {address} is {balance} ETH.")
+    else:
+        print("Failed to retrieve the balance. Please check the address and try again.")
+
+if __name__ == '__main__':
+    main()
